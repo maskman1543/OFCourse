@@ -30,6 +30,7 @@ model Course {
 
   @@index([categoryId])
   @@fulltext([title])
+  quizzes Quiz[]
 }
 
 model Category {
@@ -120,4 +121,36 @@ model StripeCustomer {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Quiz {
+  id String @id @default(uuid())
+  courseId String
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  title String
+  description String?
+  questions Question[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
+
+model Question {
+  id String @id @default(uuid())
+  quizId String
+  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  questionId Int
+  questionDescription String
+  questionType String // You might want to adjust the type based on your needs
+  choices String // Changed to a singular string, consider storing as JSON
+  correct String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([quizId])
 }

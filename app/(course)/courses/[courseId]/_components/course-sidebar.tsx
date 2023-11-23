@@ -60,6 +60,19 @@ export const CourseSidebar = async ({
           />
         ))}
       </div>
+      {/* THIS IS WHERE YOU WILL ADD THE CERTIFICATE AND QUIZ */}
+      {/* <div className="flex flex-col w-full">
+        {course.chapters.map((chapter) => (
+          <CourseSidebarItem
+            key={chapter.id}
+            id={chapter.id}
+            label={chapter.title}
+            isCompleted={!!chapter.userProgress?.[0]?.isCompleted}
+            courseId={course.id}
+            isLocked={!chapter.isFree && !purchase}
+          />
+        ))}
+      </div> */}
     </div>
   )
 }

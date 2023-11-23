@@ -58,5 +58,6 @@ export const CourseSidebarItem = ({
         isCompleted && "border-emerald-700"
       )} />
     </button>
+    
   )
 }

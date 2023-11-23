@@ -1,5 +1,4 @@
 import { Category, Chapter, Course } from "@prisma/client";
-
 import { db } from "@/lib/db";
 import { getProgress } from "@/actions/get-progress";
 
@@ -12,32 +11,25 @@ type CourseWithProgressWithCategory = Course & {
 type DashboardCourses = {
   completedCourses: CourseWithProgressWithCategory[];
   coursesInProgress: CourseWithProgressWithCategory[];
-}
+};
 
 export const getDashboardCourses = async (userId: string): Promise<DashboardCourses> => {
   try {
-    const purchasedCourses = await db.purchase.findMany({
-      where: {
-        userId: userId,
+    const allCourses = await db.course.findMany({ // Assuming all available courses are fetched from the database
+      include: {
+        category: true,
+        chapters: {
+          where: {
+            isPublished: true,
+          },
+        },
       },
-      select: {
-        course: {
-          include: {
-            category: true,
-            chapters: {
-              where: {
-                isPublished: true,
-              }
-            }
-          }
-        }
-      }
     });
 
-    const courses = purchasedCourses.map((purchase) => purchase.course) as CourseWithProgressWithCategory[];
+    const courses = allCourses as CourseWithProgressWithCategory[];
 
     for (let course of courses) {
-      const progress = await getProgress(userId, course.id);
+      const progress = await getProgress(userId, course.id); // Generating progress regardless of purchase
       course["progress"] = progress;
     }
 
@@ -47,12 +39,12 @@ export const getDashboardCourses = async (userId: string): Promise<DashboardCour
     return {
       completedCourses,
       coursesInProgress,
-    }
+    };
   } catch (error) {
     console.log("[GET_DASHBOARD_COURSES]", error);
     return {
       completedCourses: [],
       coursesInProgress: [],
-    }
+    };
   }
-}
+};

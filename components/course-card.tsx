@@ -11,7 +11,7 @@ interface CourseCardProps {
   title: string;
   imageUrl: string;
   chaptersLength: number;
-  price: number;
+  //price: number;
   progress: number | null;
   category: string;
 };
@@ -21,7 +21,7 @@ export const CourseCard = ({
   title,
   imageUrl,
   chaptersLength,
-  price,
+  //price,
   progress,
   category
 }: CourseCardProps) => {
@@ -59,7 +59,7 @@ export const CourseCard = ({
             />
           ) : (
             <p className="text-md md:text-sm font-medium text-slate-700">
-              {formatPrice(price)}
+              {/* {formatPrice(price)} */}
             </p>
           )}
         </div>

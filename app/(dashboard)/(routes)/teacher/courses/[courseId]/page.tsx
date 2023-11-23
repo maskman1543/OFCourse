@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import { CircleDollarSign, File, LayoutDashboard, ListChecks } from "lucide-react";
+import { BookOpenCheck, CircleDollarSign, File, GraduationCap, LayoutDashboard, ListChecks } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { IconBadge } from "@/components/icon-badge";
@@ -14,6 +14,8 @@ import { PriceForm } from "./_components/price-form";
 import { AttachmentForm } from "./_components/attachment-form";
 import { ChaptersForm } from "./_components/chapters-form";
 import { Actions } from "./_components/actions";
+import { QuizForm } from "./_components/quiz-form";
+import { CertificationForm } from "./_components/certification-form";
 
 const CourseIdPage = async ({
   params
@@ -57,8 +59,8 @@ const CourseIdPage = async ({
 
   const requiredFields = [
     course.title,
-    course.description,
-    course.imageUrl,
+    course.description,                 
+    course.imageUrl,                                      
     course.categoryId,
     course.chapters.some(chapter => chapter.isPublished),
   ];
@@ -122,6 +124,7 @@ const CourseIdPage = async ({
               }))}
             />
           </div>
+          {/* Course Chapter Layout */}
           <div className="space-y-6">
             <div>
               <div className="flex items-center gap-x-2">
@@ -135,18 +138,33 @@ const CourseIdPage = async ({
                 courseId={course.id}
               />
             </div>
-            {/* <div>
+            {/* Course Quiz Layout */}
+            <div>
               <div className="flex items-center gap-x-2">
-                <IconBadge icon={CircleDollarSign} />
+                <IconBadge icon={BookOpenCheck} />
                 <h2 className="text-xl">
-                  Sell your course
+                  Course Quiz
                 </h2>
               </div>
-              <PriceForm
+              <QuizForm
                 initialData={course}
                 courseId={course.id}
               />
-            </div> */}
+            </div>
+            {/* Course Certificate Layout */}
+            <div>
+              <div className="flex items-center gap-x-2">
+                <IconBadge icon={GraduationCap} />
+                <h2 className="text-xl">
+                  Course Certificate
+                </h2>
+              </div>
+              <CertificationForm
+                initialData={course}
+                courseId={course.id}
+              />
+            </div>
+            {/* Resources & Attachments Layout */}
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={File} />

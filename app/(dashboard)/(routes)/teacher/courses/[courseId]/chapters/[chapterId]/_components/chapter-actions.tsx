@@ -29,7 +29,7 @@ export const ChapterActions = ({
     try {
       setIsLoading(true);
 
-      if (isPublished) {
+      if (isPublished) {1
         await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/unpublish`);
         toast.success("Chapter unpublished");
       } else {

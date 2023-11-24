@@ -10,12 +10,13 @@ import { TitleForm } from "./_components/title-form";
 import { DescriptionForm } from "./_components/description-form";
 import { ImageForm } from "./_components/image-form";
 import { CategoryForm } from "./_components/category-form";
-import { PriceForm } from "./_components/price-form";
+// import { PriceForm } from "./_components/price-form";
 import { AttachmentForm } from "./_components/attachment-form";
 import { ChaptersForm } from "./_components/chapters-form";
 import { Actions } from "./_components/actions";
-import { QuizForm } from "./_components/quiz-form";
+// import { QuizForm } from "./_components/quiz-form";
 import { CertificationForm } from "./_components/certification-form";
+import { QuizForm } from "./_components/quiz-form";
 
 const CourseIdPage = async ({
   params
@@ -146,10 +147,10 @@ const CourseIdPage = async ({
                   Course Quiz
                 </h2>
               </div>
-              <DescriptionForm
-              initialData={course}
-              courseId={course.id}
-            />
+              <QuizForm
+                initialData={course}
+                courseId={course.id}
+              />
             </div>
             {/* Course Certificate Layout */}
             <div>

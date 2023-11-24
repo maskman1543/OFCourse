@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { CourseProgress } from "@/components/course-progress";
 
 import { CourseSidebarItem } from "./course-sidebar-item";
+import { CourseQuizSidebar } from "./course-quiz-sidebar";
 
 interface CourseSidebarProps {
   course: Course & {
@@ -61,9 +62,9 @@ export const CourseSidebar = async ({
         ))}
       </div>
       {/* THIS IS WHERE YOU WILL ADD THE CERTIFICATE AND QUIZ */}
-      {/* <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full bg-gray-100">
         {course.chapters.map((chapter) => (
-          <CourseSidebarItem
+          <CourseQuizSidebar
             key={chapter.id}
             id={chapter.id}
             label={chapter.title}
@@ -72,7 +73,7 @@ export const CourseSidebar = async ({
             isLocked={!chapter.isFree && !purchase}
           />
         ))}
-      </div> */}
+      </div>
     </div>
   )
 }

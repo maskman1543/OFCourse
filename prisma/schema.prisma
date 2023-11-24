@@ -130,6 +130,7 @@ model Quiz {
 
   title String
   description String?
+  score Int
   questions Question[]
 
   createdAt DateTime @default(now())
@@ -138,15 +139,16 @@ model Quiz {
   @@index([courseId])
 }
 
-model Question {
-  id String @id @default(uuid())
-  quizId String
-  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
 
+model Question {
+  id        String  @id @default(uuid())
+  quizId    String
+  quiz      Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  
   questionId Int
   questionDescription String
-  questionType String // You might want to adjust the type based on your needs
-  choices String // Changed to a singular string, consider storing as JSON
+  questionType String
+  choices String
   correct String
 
   createdAt DateTime @default(now())
@@ -154,3 +156,4 @@ model Question {
 
   @@index([quizId])
 }
+

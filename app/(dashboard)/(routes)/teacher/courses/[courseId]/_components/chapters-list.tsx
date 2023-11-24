@@ -14,10 +14,10 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 interface ChaptersListProps {
-  items: Chapter[];
+  items: { id: string; title: string; description: string | null; videoUrl: string | null; position: number; isPublished: boolean; isFree: boolean; courseId: string; createdAt: Date; updatedAt: Date }[];
   onReorder: (updateData: { id: string; position: number }[]) => void;
   onEdit: (id: string) => void;
-};
+}
 
 export const ChaptersList = ({
   items,

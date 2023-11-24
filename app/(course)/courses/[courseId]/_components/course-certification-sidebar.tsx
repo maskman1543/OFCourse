@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpenCheck, CheckCircle, Lock, PlayCircle } from "lucide-react";
+import { BookOpenCheck, CheckCircle, GraduationCap, Lock, PlayCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
@@ -8,12 +8,12 @@ import { cn } from "@/lib/utils";
 interface CourseSidebarItemProps {
   label: string;
   id: string;
-  //isCompleted: boolean;
+  //sCompleted: boolean;
   courseId: string;
   //isLocked: boolean;
 };
 
-export const CourseQuizSidebar = ({
+export const CourseCertificationSidebar = ({
   label,
   id,
   //isCompleted,
@@ -23,7 +23,7 @@ export const CourseQuizSidebar = ({
   const pathname = usePathname();
   const router = useRouter();
 
-  const Icon = BookOpenCheck;
+  const Icon = GraduationCap;
   const isActive = pathname?.includes(id);
 
   const onClick = () => {
@@ -50,12 +50,12 @@ export const CourseQuizSidebar = ({
             //isCompleted && "text-emerald-700"
           )}
         />
-        QUIZ
+        CERTIFICATE
       </div>
       <div className={cn(
         "ml-auto opacity-0 border-2 border-slate-700 h-full transition-all",
         isActive && "opacity-100",
-        //isCompleted && "border-emerald-700"
+       //isCompleted && "border-emerald-700"
       )} />
     </button>
     

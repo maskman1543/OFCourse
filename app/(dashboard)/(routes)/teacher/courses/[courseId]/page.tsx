@@ -146,10 +146,10 @@ const CourseIdPage = async ({
                   Course Quiz
                 </h2>
               </div>
-              <QuizForm
-                initialData={course}
-                courseId={course.id}
-              />
+              <DescriptionForm
+              initialData={course}
+              courseId={course.id}
+            />
             </div>
             {/* Course Certificate Layout */}
             <div>

@@ -31,6 +31,7 @@ export default async function QuizPage() {
             <QuizList
                 items={[...coursesInProgress, ...completedCourses]}
             />
+            
         </div>
     )
 }

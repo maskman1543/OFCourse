@@ -67,7 +67,6 @@ export const QuizForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Add Your Quiz Here
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <></>
@@ -106,12 +105,12 @@ export const QuizForm = ({
                 </FormItem>
               )}
             /> */}
-            <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-1">
               <Button
                 disabled={!isValid || isSubmitting}
                 type="submit"
               >
-                Save
+                Add Quiz for this Course
               </Button>
             </div>
           </form>

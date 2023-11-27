@@ -14,7 +14,7 @@ export const QuizCard = ({ id, title }: CourseCardProps) => {
 
   return (
     <Link href={`/courses/${id}`}>
-      <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
+      <div className="group hover:shadow-sm transition overflow-hidden bg-blue-200 border rounded-lg p-3 h-full">
         <div className="flex flex-col pt-2">
           <div className="my-3 text-sm md:text-xs">
             <div className="mb-2">

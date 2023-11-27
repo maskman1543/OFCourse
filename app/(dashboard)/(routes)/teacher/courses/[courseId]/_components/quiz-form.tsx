@@ -8,7 +8,6 @@ import { Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Course } from "@prisma/client";
 
 import {
   Form,
@@ -17,25 +16,26 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
 
-interface QuizFormProps {
-  initialData: Course;
+interface TitleFormProps {
+  initialData: {
+    title: string;
+  };
   courseId: string;
 };
 
 const formSchema = z.object({
-  description: z.string().min(1, {
-    message: "Description is required",
+  title: z.string().min(1, {
+    message: "Title is required",
   }),
 });
 
 export const QuizForm = ({
   initialData,
   courseId
-}: QuizFormProps) => {
+}: TitleFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -44,69 +44,68 @@ export const QuizForm = ({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      description: initialData?.description || ""
-    },
+    defaultValues: initialData,
   });
 
   const { isSubmitting, isValid } = form.formState;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course updated");
-      toggleEdit();
-      router.refresh();
-    } catch {
-      toast.error("Something went wrong");
-    }
+  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  //   try {
+  //     await axios.patch(`/api/courses/${courseId}`, values);
+  //     // toast.success("Course updated");
+  //     // toggleEdit();
+  //     router.refresh();
+  //   } catch {
+  //     toast.error("Something went wrong");
+  //   }
+  // }
+
+  const onSubmit = () => {
+    router.push(`/teacher/courses/${courseId}/teacherquiz`);
   }
 
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Course description
+        Add Your Quiz Here
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
-            <>Cancel</>
+            <></>
           ) : (
             <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit description
+              {/* <Pencil className="h-4 w-4 mr-2" /> */}
+              {/* Add Quiz */}
             </>
           )}
         </Button>
       </div>
-      {!isEditing && (
-        <p className={cn(
-          "text-sm mt-2",
-          !initialData.description && "text-slate-500 italic"
-        )}>
-          {initialData.description || "No description"}
-        </p>
-      )}
-      {isEditing && (
+      {/* {!isEditing && (
+        // <p className="text-sm mt-2">
+        //   {initialData.title}
+        // </p>
+      )} */}
+      
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4 mt-4"
           >
-            <FormField
+            {/* <FormField
               control={form.control}
-              name="description"
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Textarea
+                    <Input
                       disabled={isSubmitting}
-                      placeholder="e.g. 'This course is about...'"
+                      placeholder="e.g. 'Advanced web development'"
                       {...field}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <div className="flex items-center gap-x-2">
               <Button
                 disabled={!isValid || isSubmitting}
@@ -117,7 +116,7 @@ export const QuizForm = ({
             </div>
           </form>
         </Form>
-      )}
+      
     </div>
   )
 }

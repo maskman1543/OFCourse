@@ -11,7 +11,7 @@ interface CourseCardProps {
 export const QuizCard = ({ id, title }: CourseCardProps) => {
   const question = "What is the capital of France?";
   const choices = ["London", "Paris", "Berlin", "Rome"];
-
+    
   return (
     <Link href={`/courses/${id}`}>
       <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">

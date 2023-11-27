@@ -2,6 +2,7 @@ import { Category, Course } from "@prisma/client";
 
 import { CourseCard } from "@/components/course-card";
 import { QuizCard } from "@/components/quiz-card";
+import { Button } from "@/components/ui/button";
 
 type CourseWithProgressWithCategory = Course & {
   category: Category | null;
@@ -16,7 +17,7 @@ interface CoursesListProps {
 export const QuizList = ({ items }: CoursesListProps) => {
     return (
       <div className="flex flex-col gap-4">
-        <div className="sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4 space-x-1">
+        <div className="sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4 space-x-1 ">
           {items.map((item) => (
             <QuizCard
               key={item.id}
@@ -29,12 +30,19 @@ export const QuizList = ({ items }: CoursesListProps) => {
               category={item?.category?.name!}
             />
           ))}
+          <Button
+            //onClick={handleSubmit}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded gap-y-2"
+          >
+            Submit
+          </Button>
         </div>
         {items.length === 0 && (
           <div className="text-center text-sm text-muted-foreground mt-10">
             No Quiz found
           </div>
         )}
+        
       </div>
     );
   };

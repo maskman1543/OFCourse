@@ -66,51 +66,22 @@ export const QuizForm = ({
 
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
-      <div className="font-medium flex items-center justify-between">
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <></>
-          ) : (
-            <>
-              {/* <Pencil className="h-4 w-4 mr-2" /> */}
-              {/* Add Quiz */}
-            </>
-          )}
-        </Button>
+      <div className="font-medium flex items-center justify-between p-3">
+        <p><b>OFCourse</b> recommends adding a quiz for this course, press the button below to edit the Quiz!</p>
       </div>
-      {/* {!isEditing && (
-        // <p className="text-sm mt-2">
-        //   {initialData.title}
-        // </p>
-      )} */}
       
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4 mt-4"
           >
-            {/* <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      disabled={isSubmitting}
-                      placeholder="e.g. 'Advanced web development'"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
             <div className="flex items-center gap-x-1">
               <Button
                 disabled={!isValid || isSubmitting}
                 type="submit"
+                className="w-full"
               >
-                Add Quiz for this Course
+                Edit Course Quiz
               </Button>
             </div>
           </form>

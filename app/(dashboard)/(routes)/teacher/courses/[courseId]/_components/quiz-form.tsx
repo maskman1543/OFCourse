@@ -67,7 +67,7 @@ export const QuizForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between p-3">
-        <p><b>OFCourse</b> recommends adding a quiz for this course, press the button below to edit the Quiz!</p>
+      <p className="text-base"><b>OFCourse</b> recommends adding a quiz for this course, press the button below to edit the Quiz!</p>
       </div>
       
         <Form {...form}>
@@ -79,9 +79,9 @@ export const QuizForm = ({
               <Button
                 disabled={!isValid || isSubmitting}
                 type="submit"
-                className="w-full"
+                className="w-full px-6 py-6 text-lg"
               >
-                Edit Course Quiz
+               <span className="text-base">Edit Course Quiz</span>
               </Button>
             </div>
           </form>

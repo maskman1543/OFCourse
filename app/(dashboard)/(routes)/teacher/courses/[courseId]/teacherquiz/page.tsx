@@ -149,16 +149,44 @@ const QuizPage = () => {
             className="w-3/8"
           />
         </div>
-        <Button type="button" onClick={addQuestion} className="mt-4">
-          Add Question
-        </Button>
-        {/* Display QuestionCards for added questions */}
-        {questions.map((question) => (
-          <QuestionCard key={question.id} question={question} onEdit={(questionId, updatedQuestion) => handleEditQuestion(questionId, updatedQuestion)} />
-        ))}
-        <Button type="submit" className="mt-4" style={{ paddingLeft: '-5px', paddingRight: '-5px' }}>
-          Save Quiz
-        </Button>
+        <Button
+  type="button"
+  onClick={addQuestion}
+  className={`mt-4 transition-transform transform-gpu ${
+    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+  }`}
+>
+  Add Question
+</Button>
+{/* Display QuestionCards for added questions */}
+{questions.map((question, index) => (
+  <div key={question.id} className="flex items-center">
+    <QuestionCard
+      question={question}
+      onEdit={(questionId, updatedQuestion) =>
+        handleEditQuestion(questionId, updatedQuestion)
+      }
+    />
+    <Button
+  type="button"
+  onClick={() => removeQuestion(index)}
+  className={`mt-4 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''} mx-2`}
+  style={{ paddingLeft: '-5px', paddingRight: '-5px', backgroundColor: '#0F172A', color: '#F8FAFC' }}
+>
+  Remove Question
+</Button>
+  </div>
+))}
+<Button
+  type="submit"
+  className={`mt-4 mx-3 transition-transform transform-gpu ${
+    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+  }`}
+  style={{ paddingLeft: '-5px', paddingRight: '-5px' }}
+>
+  Save Quiz
+</Button>
+
       </form>
 
       {/* Display Quiz Data for verification */}

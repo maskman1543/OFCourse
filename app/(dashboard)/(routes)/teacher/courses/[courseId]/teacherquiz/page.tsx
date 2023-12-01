@@ -108,7 +108,7 @@ const QuizPage = () => {
   };
 
   return (
-    <div className='px-3 flex flex-col items-center justify-center min-h-screen bg-blue-50'>
+    <div className='px-3 flex flex-col items-center justify-center min-h-screen bg-blue-100'>
       <div className="bg-white p-8 rounded-md shadow-inner" style={{ boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.2)', width: '80%' }}>
         <h1 className="font-medium text-2xl flex items-center justify-between">Create/Edit Quiz</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -122,7 +122,7 @@ const QuizPage = () => {
               {...register('title')}
               placeholder="Enter quiz title"
               required
-              className="w-1/3"
+              className="w-full"
             />
           </div>
           <div className="mb-4">
@@ -133,7 +133,7 @@ const QuizPage = () => {
               id="description"
               {...register('description')}
               placeholder="Enter quiz description"
-              className="w-1/2 h-16 resize none"
+              className="w-full h-16 resize none"
             />
           </div>
           <div className="mb-4">
@@ -147,7 +147,7 @@ const QuizPage = () => {
               placeholder="0 points"
               required
               readOnly
-              className="w-3/8"
+              className="w-full"
             />
           </div>
           <Button
@@ -161,18 +161,20 @@ const QuizPage = () => {
           </Button>
           {/* Display QuestionCards for added questions */}
           {questions.map((question, index) => (
-            <div key={question.id} className="flex items-center">
-              <QuestionCard
-                question={question}
-                onEdit={(questionId, updatedQuestion) =>
-                  handleEditQuestion(questionId, updatedQuestion)
-                }
-              />
+            <div key={question.id} className="flex flex-col mb-4">
+              <div className="w-full">
+                <QuestionCard
+                  question={question}
+                  onEdit={(questionId, updatedQuestion) =>
+                    handleEditQuestion(questionId, updatedQuestion)
+                  }
+                />
+              </div>
               <Button
                 type="button"
                 onClick={() => removeQuestion(index)}
-                className={`mt-4 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''} mx-2`}
-                style={{ paddingLeft: '-5px', paddingRight: '-5px', backgroundColor: '#0F172A', color: '#F8FAFC' }}
+                className={`mt-2 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                style={{ backgroundColor: '#0F172A', color: '#F8FAFC' }}
               >
                 Remove Question
               </Button>
@@ -200,6 +202,7 @@ const QuizPage = () => {
       </div>
     </div>
   );
+  
   
 };
 

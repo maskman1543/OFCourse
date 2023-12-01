@@ -108,98 +108,99 @@ const QuizPage = () => {
   };
 
   return (
-    <div className='px-3'>
-      <h1 className="font-medium text-2xl flex items-center justify-between">Create/Edit Quiz</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4">
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 py-3">
-            Quiz Title
-          </label>
-          <Input
-            type="text"
-            id="title"
-            {...register('title')}
-            placeholder="Enter quiz title"
-            required
-            className="w-1/3"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 py-3">
-            Quiz Description
-          </label>
-          <Textarea
-            id="description"
-            {...register('description')}
-            placeholder="Enter quiz description"
-            className="w-1/2 h-16 resize none"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="points" className="block text-sm font-medium text-gray-700 py-3">
-            Quiz Points
-          </label>
-          <Input
-            type="number"
-            id="points"
-            {...register('points')}
-            placeholder="0 points"
-            required
-            readOnly
-            className="w-3/8"
-          />
-        </div>
-        <Button
-  type="button"
-  onClick={addQuestion}
-  className={`mt-4 transition-transform transform-gpu ${
-    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-  }`}
->
-  Add Question
-</Button>
-{/* Display QuestionCards for added questions */}
-{questions.map((question, index) => (
-  <div key={question.id} className="flex items-center">
-    <QuestionCard
-      question={question}
-      onEdit={(questionId, updatedQuestion) =>
-        handleEditQuestion(questionId, updatedQuestion)
-      }
-    />
-    <Button
-  type="button"
-  onClick={() => removeQuestion(index)}
-  className={`mt-4 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''} mx-2`}
-  style={{ paddingLeft: '-5px', paddingRight: '-5px', backgroundColor: '#0F172A', color: '#F8FAFC' }}
->
-  Remove Question
-</Button>
-  </div>
-))}
-<Button
-  type="submit"
-  className={`mt-4 mx-3 transition-transform transform-gpu ${
-    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-  }`}
-  style={{ paddingLeft: '-5px', paddingRight: '-5px' }}
->
-  Save Quiz
-</Button>
-
-      </form>
-
-      {/* Display Quiz Data for verification */}
-      {quizData && (
-        <div className="mt-4">
-          <h2>Quiz Data</h2>
-          <p>Title: {quizData.title}</p>
-          <p>Description: {quizData.description}</p>
-          <p>Points: {quizData.points}</p>
-        </div>
-      )}
+    <div className='px-3 flex flex-col items-center justify-center min-h-screen bg-blue-50'>
+      <div className="bg-white p-8 rounded-md shadow-inner" style={{ boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.2)', width: '80%' }}>
+        <h1 className="font-medium text-2xl flex items-center justify-between">Create/Edit Quiz</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="mb-4">
+            <label htmlFor="title" className="block text-sm font-medium text-gray-700 py-3">
+              Quiz Title
+            </label>
+            <Input
+              type="text"
+              id="title"
+              {...register('title')}
+              placeholder="Enter quiz title"
+              required
+              className="w-1/3"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 py-3">
+              Quiz Description
+            </label>
+            <Textarea
+              id="description"
+              {...register('description')}
+              placeholder="Enter quiz description"
+              className="w-1/2 h-16 resize none"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="points" className="block text-sm font-medium text-gray-700 py-3">
+              Quiz Points
+            </label>
+            <Input
+              type="number"
+              id="points"
+              {...register('points')}
+              placeholder="0 points"
+              required
+              readOnly
+              className="w-3/8"
+            />
+          </div>
+          <Button
+            type="button"
+            onClick={addQuestion}
+            className={`mt-4 transition-transform transform-gpu ${
+              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            Add Question
+          </Button>
+          {/* Display QuestionCards for added questions */}
+          {questions.map((question, index) => (
+            <div key={question.id} className="flex items-center">
+              <QuestionCard
+                question={question}
+                onEdit={(questionId, updatedQuestion) =>
+                  handleEditQuestion(questionId, updatedQuestion)
+                }
+              />
+              <Button
+                type="button"
+                onClick={() => removeQuestion(index)}
+                className={`mt-4 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''} mx-2`}
+                style={{ paddingLeft: '-5px', paddingRight: '-5px', backgroundColor: '#0F172A', color: '#F8FAFC' }}
+              >
+                Remove Question
+              </Button>
+            </div>
+          ))}
+          <Button
+            type="submit"
+            className={`mt-4 mx-3 transition-transform transform-gpu ${
+              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            style={{ paddingLeft: '-5px', paddingRight: '-5px' }}
+          >
+            Save Quiz
+          </Button>
+        </form>
+        {/* Display Quiz Data for verification */}
+        {quizData && (
+          <div className="mt-4">
+            <h2>Quiz Data</h2>
+            <p>Title: {quizData.title}</p>
+            <p>Description: {quizData.description}</p>
+            <p>Points: {quizData.points}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
+  
 };
 
 export default QuizPage;

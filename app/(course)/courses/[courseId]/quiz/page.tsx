@@ -1,3 +1,4 @@
+
 import { auth } from "@clerk/nextjs"
 import { redirect } from "next/navigation";
 
@@ -5,6 +6,7 @@ import { getDashboardCourses } from "@/actions/get-dashboard-courses";
 import { QuizList } from "./_components/quiz-list";
 import { IconBadge } from "@/components/icon-badge";
 import { BookOpenCheck } from "lucide-react";
+//import { Separator } from "@radix-ui/react-separator";
 
 
 export default async function QuizPage() {
@@ -28,6 +30,7 @@ export default async function QuizPage() {
                   Quiz
                 </h2>
               </div>
+              
             <QuizList
                 items={[...coursesInProgress, ...completedCourses]}
             />

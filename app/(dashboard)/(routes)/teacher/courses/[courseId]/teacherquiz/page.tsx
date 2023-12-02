@@ -8,9 +8,10 @@ import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import axios from 'axios';
-import QuestionCard from './QuestionCard'; // Assuming the path to QuestionCard is correct
+import QuestionCard from './QuestionCard';
 import { v4 as uuidv4 } from 'uuid';
 import { Textarea } from '@/components/ui/textarea';
+import { getQuizzes } from "@/actions/get-quizzes";
 
 interface QuizFormProps {
   title: string;
@@ -19,16 +20,16 @@ interface QuizFormProps {
 }
 
 interface Question {
-    id: string;
-    quizId: string;
-    questionId: number;
-    questionDescription: string;
-    questionType: string;
-    choices: string;
-    correct: string;
-    createdAt: Date;
-    updatedAt: Date;
-  }
+  id: string;
+  quizId: string;
+  questionId: number;
+  questionDescription: string;
+  questionType: string;
+  choices: string;
+  correct: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 const quizSchema = z.object({
   title: z.string().min(1),
@@ -44,7 +45,8 @@ const QuizPage = () => {
     resolver: zodResolver(quizSchema),
   });
 
-  const { handleSubmit, register, setValue, formState } = form;
+  const { handleSubmit, register, formState } = form;
+
   const { isValid, isSubmitting } = formState;
 
   const handleEditQuestion = (questionId: number, updatedQuestion: Partial<Question>) => {
@@ -91,6 +93,11 @@ const QuizPage = () => {
       // Update the state or perform other actions as needed
       setQuizData(response.data);
 
+      // Fetch quizzes after successful submission
+      const staticUserId = 'yourStaticUserId'; // Replace 'yourStaticUserId' with your static user ID
+      const quizzes = await getQuizzes({ userId: staticUserId });
+      console.log('Quizzes:', quizzes);
+
       // Reset the form if needed
       form.reset();
       setQuestions([]); // Clear the questions array after submission
@@ -101,70 +108,102 @@ const QuizPage = () => {
   };
 
   return (
-    <div className='px-3'>
-     <h1 className="font-medium text-2xl flex items-center justify-between">Create/Edit Quiz</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4">
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 py-3">
-            Quiz Title
-          </label>
-          <Input
-            type="text"
-            id="title"
-            {...register('title')}
-            placeholder="Enter quiz title"
-            required
-            className="w-1/3"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 py-3">
-            Quiz Description
-          </label>
-          <Textarea
-            id="description"
-            {...register('description')}
-            placeholder="Enter quiz description"
-            className="w-1/2 h-16 resize none"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="points" className="block text-sm font-medium text-gray-700 py-3">
-            Quiz Points
-          </label>
-          <Input
-            type="number"
-            id="points"
-            {...register('points')}
-            placeholder="0 points"
-            required
-            readOnly
-            className="w-3/8"
-          />
-        </div>
-        <Button type="button" onClick={addQuestion} className="mt-4">
-          Add Question
-        </Button>
+    <div className='px-3 flex flex-col items-center justify-center min-h-screen bg-blue-100'>
+      <div className="bg-white p-8 rounded-md shadow-inner" style={{ boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.2)', width: '80%' }}>
+        <h1 className="font-medium text-2xl flex items-center justify-between">Create/Edit Quiz</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="mb-4">
+            <label htmlFor="title" className="block text-sm font-medium text-gray-700 py-3">
+              Quiz Title
+            </label>
+            <Input
+              type="text"
+              id="title"
+              {...register('title')}
+              placeholder="Enter quiz title"
+              required
+              className="w-full"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="description" className="block text-sm font-medium text-gray-700 py-3">
+              Quiz Description
+            </label>
+            <Textarea
+              id="description"
+              {...register('description')}
+              placeholder="Enter quiz description"
+              className="w-full h-16 resize none"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="points" className="block text-sm font-medium text-gray-700 py-3">
+              Quiz Points
+            </label>
+            <Input
+              type="number"
+              id="points"
+              {...register('points')}
+              placeholder="0 points"
+              required
+              readOnly
+              className="w-full"
+            />
+          </div>
+          <Button
+            type="button"
+            onClick={addQuestion}
+            className={`mt-4 transition-transform transform-gpu ${
+              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            Add Question
+          </Button>
           {/* Display QuestionCards for added questions */}
-      {questions.map((question) => (
-        <QuestionCard key={question.id} question={question} onEdit={(questionId, updatedQuestion) => handleEditQuestion(questionId, updatedQuestion)} />
-      ))}
-        <Button type="submit" className="mt-4" disabled={!isValid || isSubmitting}>
-          Save Quiz
-        </Button>
-      </form>
-
-      {/* Display Quiz Data for verification */}
-      {quizData && (
-        <div className="mt-4">
-          <h2>Quiz Data</h2>
-          <p>Title: {quizData.title}</p>
-          <p>Description: {quizData.description}</p>
-          <p>Points: {quizData.points}</p>
-        </div>
-      )}
+          {questions.map((question, index) => (
+            <div key={question.id} className="flex flex-col mb-4">
+              <div className="w-full">
+                <QuestionCard
+                  question={question}
+                  onEdit={(questionId, updatedQuestion) =>
+                    handleEditQuestion(questionId, updatedQuestion)
+                  }
+                />
+              </div>
+              <Button
+                type="button"
+                onClick={() => removeQuestion(index)}
+                className={`mt-2 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                style={{ backgroundColor: '#0F172A', color: '#F8FAFC' }}
+              >
+                Remove Question
+              </Button>
+            </div>
+          ))}
+          <Button
+            type="submit"
+            className={`mt-4 mx-3 transition-transform transform-gpu ${
+              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            style={{ paddingLeft: '-5px', paddingRight: '-5px' }}
+          >
+            Save Quiz
+          </Button>
+        </form>
+        {/* Display Quiz Data for verification */}
+        {quizData && (
+          <div className="mt-4">
+            <h2>Quiz Data</h2>
+            <p>Title: {quizData.title}</p>
+            <p>Description: {quizData.description}</p>
+            <p>Points: {quizData.points}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
+  
+  
 };
 
 export default QuizPage;

@@ -53,8 +53,15 @@ export function DataTable<TData, TValue>({
     },
   })
 
+  const tableStyle = {
+    boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.1)',
+    borderRadius: '8px',
+    padding: '20px',
+    
+  };
+
   return (
-    <div>
+    <div className='bg-blue-100'style={tableStyle}>
       <div className="flex items-center py-4 justify-between">
         <Input
           placeholder="Filter courses..."

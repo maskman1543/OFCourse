@@ -2,11 +2,16 @@ import { Button } from "@/components/ui/button";
 
 const CerificatePage = () => {
     return (
-        <div className="p-6 space-y-4">
+        <div className="p-6 space-y-4 bg-blue-200" style={{
+          boxShadow: '0 8px 16px 0 rgba(0, 0, 0, 0.2)', // Increased shadow depth
+          borderRadius: '12px', // Slightly increased border radius for a more rounded look
+          padding: '20px',
+         
+        }}>
           <h1 className="p-5 pt-10 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
             CONGRATULATIONS!
           </h1>
-          <h4 className="scroll-m-20 text-xl font-semibold tracking-tight text-center">
+          <h4 className="scroll-m-20 text-xl font-semibold tracking-tight text-center ">
           Congratulation on completing this course! Your commitment, 
           dedication, and hard work have led you to this incredible 
           achievement. Remember, this accomplishment is just the beginning 
@@ -18,8 +23,14 @@ const CerificatePage = () => {
                 DOWNLOAD YOUR CERTIFICATE HERE!
             </Button>
           </div>
-          <div className="mt-6 pt-40"> {/* Added a wrapper div */}
-            <blockquote className="border-l-2 pl-6 italic ">
+          <div className="mt-6 pt-40 bg-blue-100" style={{
+            float: 'left',
+            boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', // Adding a shadow effect
+            borderRadius: '8px', // Adding border radius for a rounded corner
+            padding: '20px', // Adding padding for content inside the card
+            
+          }}>
+            <blockquote className="border-l-2 pl-6 italic">
               Completion isn't just about reaching 
               the end; it's about embracing the journey, 
               celebrating the progress, and discovering the resilience 

@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { ToastProvider } from '@/components/providers/toaster-provider'
 import { ConfettiProvider } from '@/components/providers/confetti-provider'
 import { dark, neobrutalism } from '@clerk/themes';
+import { CrispProvider } from '@/components/ui/crisp-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,6 +26,7 @@ export default function RootLayout({
       }}
     >
       <html lang="en">
+      <CrispProvider />
         <body>{children}</body>
       </html>
     </ClerkProvider>

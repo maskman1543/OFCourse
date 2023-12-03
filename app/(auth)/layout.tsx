@@ -6,7 +6,7 @@ const AuthLayout = ({
   return ( 
     <div className="h-full flex items-center justify-center"
     style={{
-      backgroundImage: `url('/bg-2.png')`,
+      backgroundImage: `url('/OFCourse-Signin-page.png')`,
       backgroundPosition: "center",
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",

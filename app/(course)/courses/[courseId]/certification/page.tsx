@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
+import CertificateDownloadButton from "@/components/ui/certification-download-button";
 
 const CerificatePage = () => {
+
+
     return (
         <div className="p-6 space-y-4 bg-blue-200" style={{
           boxShadow: '0 8px 16px 0 rgba(0, 0, 0, 0.2)', // Increased shadow depth
@@ -19,9 +22,7 @@ const CerificatePage = () => {
           success and keep reaching for new heights!"
           </h4>
           <div className="s flex justify-center pt-20">
-            <Button >
-                DOWNLOAD YOUR CERTIFICATE HERE!
-            </Button>
+            <CertificateDownloadButton/>
           </div>
           <div className="mt-6 pt-40 bg-blue-100" style={{
             float: 'left',

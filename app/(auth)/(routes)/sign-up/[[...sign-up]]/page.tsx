@@ -5,7 +5,11 @@ export default function Page() {
   return <SignUp
   
   appearance={{
-    baseTheme: neobrutalism
+    baseTheme: neobrutalism,
+    elements: {
+      formButtonPrimary: "bg-blue-800  hover:bg-blue-900",
+        footerActionLink: "text-blue-800 hover:text-blue-900"
+    }
   }}
   />;
 }

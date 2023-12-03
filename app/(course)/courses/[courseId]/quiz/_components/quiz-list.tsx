@@ -30,12 +30,7 @@ export const QuizList = ({ items }: CoursesListProps) => {
               category={item?.category?.name!}
             />
           ))}
-          <Button
-            //onClick={handleSubmit}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded gap-y-2"
-          >
-            Submit
-          </Button>
+          
         </div>
         {items.length === 0 && (
           <div className="text-center text-sm text-muted-foreground mt-10">

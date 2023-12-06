@@ -16,7 +16,7 @@ import { getQuizzes } from "@/actions/get-quizzes";
 interface QuizFormProps {
   title: string;
   description?: string;
-  points: number;
+  score: number;
 }
 
 interface Question {
@@ -34,7 +34,7 @@ interface Question {
 const quizSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
-  points: z.number().int(),
+  score: z.number().int(),
 });
 
 const QuizPage = () => {
@@ -65,7 +65,7 @@ const QuizPage = () => {
       ...prevQuestions,
       {
         id: uuidv4(),
-        quizId: 'your-quiz-id', // Replace with the actual quiz id
+        quizId: uuidv4(),
         questionId: prevQuestions.length + 1,
         questionDescription: '',
         questionType: '',
@@ -75,19 +75,29 @@ const QuizPage = () => {
         updatedAt: new Date(),
       },
     ]);
+  
+    // Set quiz score equal to the number of questions
+    form.setValue('score', questions.length + 1);
   };
+  
+  
+  
 
   const removeQuestion = (index: number) => {
     setQuestions((prevQuestions) => {
       const updatedQuestions = [...prevQuestions];
       updatedQuestions.splice(index, 1);
-  
+
       // Reassign question IDs based on their index
       const sortedQuestions = updatedQuestions.map((question, newIndex) => ({
         ...question,
         questionId: newIndex + 1,
       }));
-  
+
+      // Decrement quiz score when removing a question
+      const currentScore = form.getValues('score') as number;
+      form.setValue('score', currentScore - 1);
+
       return sortedQuestions;
     });
   };
@@ -144,18 +154,24 @@ const QuizPage = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="points" className="block text-sm font-medium text-gray-700 py-3">
-              Quiz Points
-            </label>
-            <Input
-              type="number"
-              id="points"
-              {...register('points')}
-              placeholder="0 points"
-              required
-              readOnly
-              className="w-full"
-            />
+            <div className="flex flex-col">
+              <label className="block text-sm font-medium text-gray-700 py-1">
+                Quiz Score
+              </label>
+              <div className="flex items-center">
+                <div className="w-16 mr-2">
+                  <Input
+                    type="number"
+                    id="score"
+                    {...register('score')}
+                    placeholder="0"
+                    required
+                    readOnly
+                    className="w-full text-center" 
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <div className="flex justify-center gap-4 mb-6">
             <Button
@@ -205,7 +221,7 @@ const QuizPage = () => {
             <h2>Quiz Data</h2>
             <p>Title: {quizData.title}</p>
             <p>Description: {quizData.description}</p>
-            <p>Points: {quizData.points}</p>
+            <p>Points: {quizData.score}</p>
           </div>
         )}
       </div>

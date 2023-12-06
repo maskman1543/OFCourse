@@ -81,7 +81,14 @@ const QuizPage = () => {
     setQuestions((prevQuestions) => {
       const updatedQuestions = [...prevQuestions];
       updatedQuestions.splice(index, 1);
-      return updatedQuestions;
+  
+      // Reassign question IDs based on their index
+      const sortedQuestions = updatedQuestions.map((question, newIndex) => ({
+        ...question,
+        questionId: newIndex + 1,
+      }));
+  
+      return sortedQuestions;
     });
   };
 

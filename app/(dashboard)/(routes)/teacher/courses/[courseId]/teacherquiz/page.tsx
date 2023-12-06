@@ -150,15 +150,26 @@ const QuizPage = () => {
               className="w-full"
             />
           </div>
-          <Button
-            type="button"
-            onClick={addQuestion}
-            className={`mt-4 transition-transform transform-gpu ${
-              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-          >
-            Add Question
-          </Button>
+          <div className="flex justify-center gap-4 mb-6">
+            <Button
+              type="button"
+              onClick={addQuestion}
+              className={`transition-transform transform-gpu ${
+                isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+            >
+              Add Question
+            </Button>
+            <Button
+              type="submit"
+              className={`transition-transform transform-gpu ${
+                isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              style={{ paddingLeft: '-5px', paddingRight: '-5px' }}
+            >
+              Save Quiz
+            </Button>
+          </div>
           {/* Display QuestionCards for added questions */}
           {questions.map((question, index) => (
             <div key={question.id} className="flex flex-col mb-4">
@@ -174,21 +185,12 @@ const QuizPage = () => {
                 type="button"
                 onClick={() => removeQuestion(index)}
                 className={`mt-2 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
-                style={{ backgroundColor: '#0F172A', color: '#F8FAFC' }}
+                style={{ backgroundColor: '#EE334B', color: '#F8FAFC' }}
               >
                 Remove Question
               </Button>
             </div>
           ))}
-          <Button
-            type="submit"
-            className={`mt-4 mx-3 transition-transform transform-gpu ${
-              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-            style={{ paddingLeft: '-5px', paddingRight: '-5px' }}
-          >
-            Save Quiz
-          </Button>
         </form>
         {/* Display Quiz Data for verification */}
         {quizData && (
@@ -202,8 +204,6 @@ const QuizPage = () => {
       </div>
     </div>
   );
-  
-  
 };
 
 export default QuizPage;

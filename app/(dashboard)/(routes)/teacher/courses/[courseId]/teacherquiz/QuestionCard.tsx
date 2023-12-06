@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { Question } from "@prisma/client"; // Update the path to your Question model
+import { Textarea } from '@/components/ui/textarea';
 
 // Define a mapped type for the dynamic options
 type Options = Record<string, string>;
+
+// Define the custom input props interface
+interface CustomInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  variant?: string;
+}
 
 interface QuestionCardProps {
   question: Question;
@@ -47,8 +53,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question, onEdit }) => {
         <label htmlFor={`questionDescription-${question.id}`} className="block text-sm font-medium text-gray-700 py-1">
           Question Description
         </label>
-        <input
-          type="text"
+        <Textarea
           id={`questionDescription-${question.id}`}
           value={editedQuestion.questionDescription || ''}
           onChange={(e) => handleEdit('questionDescription', e.target.value)}
@@ -69,12 +74,13 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question, onEdit }) => {
               name={`question${question.questionId}`}
               onClick={() => handleOptionChange(index)}
             />
-            <label htmlFor={`option${index}`} className="ml-2">
+            <label htmlFor={`option${index}`} className="ml-2 w-full"> {/* Set to full width */}
               <input
                 type="text"
                 value={editedQuestion.options?.[`option${index}`] || ''}
                 onChange={(e) => handleEdit(`options.option${index}`, e.target.value)}
-                className="border p-2"
+                {...{ variant: "destructive" } as CustomInputProps}
+                className="border p-2 w-full"
               />
             </label>
           </div>

@@ -125,12 +125,13 @@ model StripeCustomer {
 
 model Quiz {
   id String @id @default(uuid())
+  userId String
   courseId String
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
-  title String
+  title String 
   description String?
-  score Int
+  score Int?
   questions Question[]
 
   createdAt DateTime @default(now())

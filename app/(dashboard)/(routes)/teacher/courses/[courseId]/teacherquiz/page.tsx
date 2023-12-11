@@ -252,6 +252,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Router } from "lucide-react";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -285,20 +286,20 @@ const CreateQuizPage = () => {
 
   const {isSubmitting, isValid} = form.formState;
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-  }
+  // const onSubmit = (values: z.infer<typeof formSchema>) => {
+  //   console.log(values);
+  // }
   const router = useRouter();
 
-  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  //   try{
-  //     const response = await axios.post("/api/courses",values)
-  //     router.push('/teacher/courses/${response.data.id}');
-      
-  //   }catch{
-  //     console.log("Something went Wrong");
-  //   }
-  // }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try{
+      const response = await axios.post("/api/quizzes",values)
+      router.push(`/teacher/courses/teacherquiz/${response.data.id}`); // it shoul put an error since there is no route for this
+      toast.success("Quiz Created")
+    }catch{
+      toast.error("Something went wrong");
+    }
+  }
 
   return (
     <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">

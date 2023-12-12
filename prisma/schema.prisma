@@ -129,10 +129,13 @@ model Quiz {
   courseId String
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
-  title String 
-  description String?
-  score Int?
-  questions Question[]
+  score Int
+  question_01 String
+  choice_a String
+  choice_b String
+  choice_c String
+  choice_d String
+  correctChoice String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -141,20 +144,20 @@ model Quiz {
 }
 
 
-model Question {
-  id        String  @id @default(uuid())
-  quizId    String
-  quiz      Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade)
+// model Question {
+//   id        String  @id @default(uuid())
+//   quizId    String
+//   quiz      Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade)
   
-  questionId Int
-  questionDescription String
-  questionType String
-  choices String
-  correct String
+//   questionId Int
+//   questionDescription String
+//   questionType String
+//   choices String
+//   correct String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
 
-  @@index([quizId])
-}
+//   @@index([quizId])
+// }
 

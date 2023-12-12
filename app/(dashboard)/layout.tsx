@@ -7,7 +7,7 @@ const DashboardLayout = ({
   children: React.ReactNode;
 }) => {
   return ( 
-    <div className="relative bg-blue-200 min-h-screen">
+    <div className="relative min-h-screen">
       <div className="h-full">
         <div className="h-[80px] md:pl-56 fixed inset-y-0 w-full z-50">
           <Navbar />

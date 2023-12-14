@@ -4,138 +4,201 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import React, { useState } from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useRouter } from "next/navigation";
 
-interface Choice {
-  choice: string;
-}
+import{
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
-interface QuizFormProps {
-  question_01: string;
-  choices: Choice[];
-  correctChoice: string;
-}
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import { Router } from "lucide-react";
+import toast from "react-hot-toast";
 
-const quizSchema = z.object({
-  question_01: z.string().min(1),
-  choices: z.array(z.object({ choice: z.string() })),
-  correctChoice: z.string(),
+const formSchema = z.object({
+  title: z.string().min(1, {
+    message: "title is required"
+  }),
+  choices01: z.string().min(1, {
+    message: "choices is required"
+  }),
+  choices02: z.string().min(1, {
+    message: "choices is required"
+  }),
+  choices03: z.string().min(1, {
+    message: "choices is required"
+  }),
+  choices04: z.string().min(1, {
+    message: "choices is required"
+  })
 });
 
-const QuizPage = () => {
-  const [quizData, setQuizData] = useState<QuizFormProps | null>(null);
-  const { control, handleSubmit, formState, register } = useForm<QuizFormProps>({
-    resolver: zodResolver(quizSchema),
-    defaultValues: {
-      question_01: '',
-      choices: [{ choice: '' }, { choice: '' }, { choice: '' }, { choice: '' }],
-      correctChoice: '',
+const CreateQuizPage = () => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues:{
+      title: "",
+      choices01: "",
+      choices02: "",
+      choices03: "",
+      choices04: "",
     },
   });
-  const { isValid, isSubmitting } = formState;
-  const { fields } = useFieldArray<QuizFormProps, "choices">({
-    control,
-    name: 'choices',
-  });
 
+  const {isSubmitting, isValid} = form.formState;
 
-  const onSubmit = async (data: QuizFormProps) => {
-    try {
-      // Send quiz data to the server
-      const response = await axios.post('/api/quiz', {
-        question_01: data.question_01,
-        choices: data.choices,
-        correctChoice: data.correctChoice,
-      });
+  // const onSubmit = (values: z.infer<typeof formSchema>) => {
+  //   console.log(values);
+  // }
+  const router = useRouter();
 
-      // Update the state or perform other actions as needed
-      setQuizData(response.data);
-
-    } catch (error) {
-      console.error('Error submitting quiz:', error);
-      // Handle error
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try{
+      const response = await axios.post(`/api/courses/[courseId]/quiz`, values);
+      router.push(`/teacher/courses/teacherquiz/${response.data.id}`); // it shoul put an error since there is no route for this
+      toast.success("Quiz Created")
+    }catch{
+      toast.error("Something went wrong");
     }
-  };
-
+  }
 
   return (
-    <div className='px-3 flex flex-col items-center justify-center min-h-screen bg-blue-100'>
-      <div className="bg-white p-8 rounded-md shadow-inner" style={{ boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.2)', width: '80%' }}>
-        <h1 className="font-medium text-2xl flex items-center justify-between">Create/Edit Quiz</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label htmlFor="question_01" className="block text-sm font-medium text-gray-700 py-3">
-              Main Question
-            </label>
-            <Input
-              type="text"
-              id="question_01"
-              {...register("question_01", { required: true })}
-              placeholder="Enter main question"
-              required
-              className="w-full"
+    <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
+      <div>
+        <h1 className="text-2xl">
+          Name your course
+        </h1>
+        <p className="text-sm text-slate-600">
+          chuchutvasdasdasdasdasdasdada
+        </p>
+        <Form {...form}>
+          <form
+           onSubmit={form.handleSubmit(onSubmit)}
+           className="space-y-8 mt-8"
+          >
+            <FormField
+              control={form.control}
+              name="title"
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>
+                    Enter Question Here!
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                    disabled={isSubmitting}
+                    placeholder="e.g. 'advance web dev"
+                    {...field}
+                    />
+                  </FormControl>
+                  <FormMessage/>
+                </FormItem>
+              )}
             />
-          </div>
-          {/* Add input fields for choices_a through choice_d */}
-          {fields.map((choice, choiceIndex) => (
-            <div key={choiceIndex} className="mb-4">
-              <div className="flex items-center justify-between">
-                <label className="block text-sm font-medium text-gray-700 py-3">
-                  Choice {String.fromCharCode(97 + choiceIndex)}
-                </label>
-              </div>
-              <div className="flex items-center">
-                <div className="w-full mr-2">
-                  <Input
-                    type="text"
-                    {...register(`choices.${choiceIndex}.choice`, { required: true })}
-                    placeholder={`Enter choice ${String.fromCharCode(97 + choiceIndex)}`}
-                    required
-                  />
-                </div>
-              </div>
+            <FormField
+              control={form.control}
+              name="choices01"
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>
+                    Enter Choices Here
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                    disabled={isSubmitting}
+                    placeholder="e.g. 'advance web dev"
+                    {...field}
+                    />
+                  </FormControl>
+                  <FormMessage/>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="choices02"
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>
+                    Enter Choices Here
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                    disabled={isSubmitting}
+                    placeholder="e.g. 'advance web dev"
+                    {...field}
+                    />
+                  </FormControl>
+                  <FormMessage/>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="choices03"
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>
+                    Enter Choices Here
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                    disabled={isSubmitting}
+                    placeholder="e.g. 'advance web dev"
+                    {...field}
+                    />
+                  </FormControl>
+                  <FormMessage/>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="choices04"
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>
+                    Enter Choices Here
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                    disabled={isSubmitting}
+                    placeholder="e.g. 'advance web dev"
+                    {...field}
+                    />
+                  </FormControl>
+                  <FormMessage/>
+                </FormItem>
+              )}
+            />
+            <div className="flex items-center gap-x-2">
+                <Link href="/">
+                  <Button
+                  type="button"
+                  variant="ghost"
+                  >
+                    Cancel
+                  </Button>
+                </Link >
+                <Button
+                type="submit"
+                disabled={!isValid || isSubmitting}
+                >
+                  Continue
+                </Button>
             </div>
-          ))}
-          <div className="mb-4">
-            <label htmlFor="correctChoice" className="block text-sm font-medium text-gray-700 py-3">
-              Correct Choice
-            </label>
-            <select
-              {...register("correctChoice", { required: true })}
-              className="w-full p-2 border rounded-md"
-            >
-              {fields.map((choice, choiceIndex) => (
-                <option key={choiceIndex} value={`choices.${choiceIndex}.choice`}>
-                  Choice {String.fromCharCode(97 + choiceIndex)}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex justify-center gap-4 mb-6">
-            <Button
-              type="submit"
-              className={`transition-transform transform-gpu ${
-                isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              style={{ paddingLeft: '-5px', paddingRight: '-5px' }}
-            >
-              Save Quiz
-            </Button>
-          </div>
-        </form>
-        {/* Display Quiz Data for verification */}
-        {quizData && (
-          <div className="mt-4">
-            <h2>Quiz Data</h2>
-            <p>Main Question: {quizData.question_01}</p>
-          </div>
-        )}
+          </form>
+        </Form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default QuizPage;
+export default CreateQuizPage;

@@ -15,7 +15,7 @@ const CerificatePage = () => {
             CONGRATULATIONS!
           </h1>
           <h4 className="scroll-m-20 text-xl font-semibold tracking-tight text-center ">
-          Congratulation on completing this course! Your commitment, 
+          Congratulations on completing this course! Your commitment, 
           dedication, and hard work have led you to this incredible 
           achievement. Remember, this accomplishment is just the beginning 
           of a journey filled with endless possibilities. Embrace your 
@@ -31,7 +31,7 @@ const CerificatePage = () => {
             padding: '20px', // Adding padding for content inside the card
             
           }}>
-            <blockquote className="border-l-2 pl-6 italic">
+            <blockquote className="border-l-2 pl-6 italic ">
               Completion isn't just about reaching 
               the end; it's about embracing the journey, 
               celebrating the progress, and discovering the resilience 

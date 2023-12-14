@@ -11,15 +11,12 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
+import CertificateTemplateImage from "c:/Users/RV Balmadres/Downloads/ofcourse preview.jpg";
 
 interface AttachmentFormProps {
   initialData: Course & { attachments: Attachment[] };
   courseId: string;
-};
-
-const formSchema = z.object({
-  url: z.string().min(1),
-});
+}
 
 export const CertificationForm = ({
   initialData,
@@ -27,10 +24,15 @@ export const CertificationForm = ({
 }: AttachmentFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [viewingTemplate, setViewingTemplate] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
   const router = useRouter();
+
+  const formSchema = z.object({
+    url: z.string().min(1),
+  });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -56,29 +58,42 @@ export const CertificationForm = ({
     }
   }
 
+  const handleViewTemplate = () => {
+    console.log("View template button clicked");
+    setViewingTemplate(true);
+  };
+  
+  const handleGoBack = () => {
+    console.log("Go back button clicked");
+    setViewingTemplate(false);
+  };
+
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Attach Course Certificate
+        Course Certification
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing && (
             <>Cancel</>
           )}
-          {!isEditing && (
+          {!isEditing && !viewingTemplate && (
             <>
-              <PlusCircle className="h-4 w-4 mr-2" />
-              Add a file
+              <ImageIcon className="h-4 w-4 mr-2" />
+              View Certificate Template
+            </>
+          )}
+          {!isEditing && viewingTemplate && (
+            <>
+              <button onClick={handleGoBack}>
+                <X className="h-4 w-4" />
+              </button>
+              Back
             </>
           )}
         </Button>
       </div>
-      {!isEditing && (
+      {!isEditing && !viewingTemplate && (
         <>
-          {initialData.attachments.length === 0 && (
-            <p className="text-sm mt-2 text-slate-500 italic">
-              No attachments yet
-            </p>
-          )}
           {initialData.attachments.length > 0 && (
             <div className="space-y-2">
               {initialData.attachments.map((attachment) => (
@@ -109,21 +124,19 @@ export const CertificationForm = ({
           )}
         </>
       )}
-      {isEditing && (
-        <div>
-          <FileUpload
-            endpoint="courseAttachment"
-            onChange={(url) => {
-              if (url) {
-                onSubmit({ url: url });
-              }
-            }}
-          />
-          <div className="text-xs text-muted-foreground mt-4">
-            Add anything your students might need to complete the course.
-          </div>
-        </div>
-      )}
+      {viewingTemplate && (
+  <div>
+    {/* Display JPEG file */}
+    {CertificateTemplateImage && (
+      <Image
+        src={CertificateTemplateImage}
+        alt="Certificate Template"
+        width={800} // Set a larger width for preview
+        height={600} // Set a larger height for preview
+      />
+    )}
+  </div>
+)}
     </div>
   )
 }

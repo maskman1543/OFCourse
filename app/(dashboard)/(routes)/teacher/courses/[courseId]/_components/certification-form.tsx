@@ -2,16 +2,14 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { Pencil, PlusCircle, ImageIcon, File, Loader2, X } from "lucide-react";
+import { ImageIcon, File, Loader2, X } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Attachment, Course } from "@prisma/client";
-import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
-import { FileUpload } from "@/components/file-upload";
-import CertificateTemplateImage from "c:/Users/RV Balmadres/Downloads/ofcourse preview.jpg";
+//import { FileUpload } from "@/components/file-upload";
 
 interface AttachmentFormProps {
   initialData: Course & { attachments: Attachment[] };
@@ -126,15 +124,13 @@ export const CertificationForm = ({
       )}
       {viewingTemplate && (
   <div>
-    {/* Display JPEG file */}
-    {CertificateTemplateImage && (
-      <Image
-        src={CertificateTemplateImage}
-        alt="Certificate Template"
-        width={800} // Set a larger width for preview
-        height={600} // Set a larger height for preview
-      />
-    )}
+    {/* Display PNG file */}
+    <img
+      src="/CertLogo.png"
+      alt="Certificate Template"
+      width={800} // Set a larger width for preview
+      height={600} // Set a larger height for preview
+    />
   </div>
 )}
     </div>

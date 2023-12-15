@@ -18,6 +18,7 @@ import { Actions } from "./_components/actions";
 import { CertificationForm } from "./_components/certification-form";
 import { QuizForm } from "./_components/quiz-form";
 
+
 const CourseIdPage = async ({
   params
 }: {
@@ -154,17 +155,18 @@ const CourseIdPage = async ({
             </div>
             {/* Course Certificate Layout */}
             <div>
-              <div className="flex items-center gap-x-2">
-                <IconBadge icon={GraduationCap} />
-                <h2 className="text-xl">
-                  Course Certificate
-                </h2>
-              </div>
-              <CertificationForm
-                initialData={course}
-                courseId={course.id}
-              />
-            </div>
+        <div className="flex items-center gap-x-2">
+          <IconBadge icon={GraduationCap} />
+          <h2 className="text-xl">
+            Course Certificate
+          </h2>
+        </div>
+        {/* Include the modified CertificationForm component */}
+        <CertificationForm
+          initialData={course}
+          courseId={course.id}
+        />
+      </div>
             {/* Resources & Attachments Layout */}
             <div>
               <div className="flex items-center gap-x-2">

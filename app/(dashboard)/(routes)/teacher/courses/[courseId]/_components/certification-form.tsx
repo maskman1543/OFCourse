@@ -1,138 +1,96 @@
 "use client";
 
-import * as z from "zod";
-import axios from "axios";
-import { ImageIcon, File, Loader2, X } from "lucide-react";
+import { ImageIcon, X } from "lucide-react";
 import { useState } from "react";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import { Attachment, Course } from "@prisma/client";
+import Modal from 'react-modal';
 
 import { Button } from "@/components/ui/button";
-//import { FileUpload } from "@/components/file-upload";
 
-interface AttachmentFormProps {
+interface CertificationFormProps {
   initialData: Course & { attachments: Attachment[] };
   courseId: string;
 }
 
-export const CertificationForm = ({
+export const CertificationForm: React.FC<CertificationFormProps> = ({
   initialData,
   courseId
-}: AttachmentFormProps) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
+}) => {
   const [viewingTemplate, setViewingTemplate] = useState(false);
-
-  const toggleEdit = () => setIsEditing((current) => !current);
-
-  const router = useRouter();
-
-  const formSchema = z.object({
-    url: z.string().min(1),
-  });
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      await axios.post(`/api/courses/${courseId}/attachments`, values);
-      toast.success("Course updated");
-      toggleEdit();
-      router.refresh();
-    } catch {
-      toast.error("Something went wrong");
-    }
-  };
-
-  const onDelete = async (id: string) => {
-    try {
-      setDeletingId(id);
-      await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
-      toast.success("Attachment deleted");
-      router.refresh();
-    } catch {
-      toast.error("Something went wrong");
-    } finally {
-      setDeletingId(null);
-    }
-  }
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleViewTemplate = () => {
     console.log("View template button clicked");
     setViewingTemplate(true);
+    setIsModalOpen(true);
   };
-  
+
   const handleGoBack = () => {
     console.log("Go back button clicked");
     setViewingTemplate(false);
+    setIsModalOpen(false);
   };
 
+
+  // Render the component
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4">
-      <div className="font-medium flex items-center justify-between">
-        Course Certification
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing && (
-            <>Cancel</>
-          )}
-          {!isEditing && !viewingTemplate && (
-            <>
-              <ImageIcon className="h-4 w-4 mr-2" />
-              View Certificate Template
-            </>
-          )}
-          {!isEditing && viewingTemplate && (
-            <>
-              <button onClick={handleGoBack}>
-                <X className="h-4 w-4" />
-              </button>
-              Back
-            </>
-          )}
-        </Button>
+    <>
+      <div className="mt-6 border bg-slate-100 rounded-md p-4">
+        <div className="font-medium flex items-center justify-between">
+          Course Certification
+          <Button onClick={handleViewTemplate} variant="ghost">
+            <ImageIcon className="h-4 w-4 mr-2" />
+            View Certificate Template
+          </Button>
+        </div>
       </div>
-      {!isEditing && !viewingTemplate && (
-        <>
-          {initialData.attachments.length > 0 && (
-            <div className="space-y-2">
-              {initialData.attachments.map((attachment) => (
-                <div
-                  key={attachment.id}
-                  className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
-                >
-                  <File className="h-4 w-4 mr-2 flex-shrink-0" />
-                  <p className="text-xs line-clamp-1">
-                    {attachment.name}
-                  </p>
-                  {deletingId === attachment.id && (
-                    <div>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    </div>
-                  )}
-                  {deletingId !== attachment.id && (
-                    <button
-                      onClick={() => onDelete(attachment.id)}
-                      className="ml-auto hover:opacity-75 transition"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </>
-      )}
-      {viewingTemplate && (
-  <div>
-    {/* Display PNG file */}
+
+      {/* Modal section */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={handleGoBack}
+        contentLabel="Certificate Template"
+        className="modal-content"
+        overlayClassName="modal-overlay"
+        style={{
+          overlay: {
+            zIndex: 1000,
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          content: {
+            position: "absolute",
+            top: "60%",
+            left: "58%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+            width: "55%",
+            maxHeight: "80%",
+            overflow: "auto",
+            border: "2px solid black",
+            background: "lightblue",  // Add border style
+            borderRadius: "8px", // Add border radius for rounded corners
+            outline: "none", // Remove default outline
+            padding: "20px", // Add padding for content
+          },
+        }}
+      >
+        <div className="flex justify-end">
+    <button className="text-2xl" onClick={handleGoBack}>
+      &times;
+    </button>
+  </div>
+  <h2 className="text-4xl font-bold mb-4 ml-4 pb-2">Certificate Template</h2>
+
+  <div className="border-2 border-lightblues-500 rounded p-4">
     <img
       src="/CertLogo.png"
       alt="Certificate Template"
-      width={800} // Set a larger width for preview
-      height={600} // Set a larger height for preview
+      className="max-w-full max-h-full mx-auto"
     />
   </div>
-)}
-    </div>
-  )
-}
+      </Modal>
+    </>
+  );
+};

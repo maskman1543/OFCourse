@@ -1,18 +1,14 @@
 "use client";
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 const CertificateDownloadButton = () => {
-  const [certificateContent] = useState('This is your certificate content.'); // Assuming this is dynamically set
-
   const handleDownload = () => {
-    const fileName = 'certificate.txt';
-    const blob = new Blob([certificateContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
+    const fileName = 'OFCCert.pdf'; // Update the file name
+    const filePath = process.env.PUBLIC_URL + '/' + fileName;
 
     const link = document.createElement('a');
-    link.href = url;
+    link.href = filePath;
     link.download = fileName;
 
     document.body.appendChild(link);

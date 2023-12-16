@@ -4,7 +4,6 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -18,8 +17,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { ButtonQuiz } from "@/components/ui/quiz-button";
 
-interface TitleFormProps {
+
+interface ChoiceFormShape {
+  text: string;
+  isCorrect: boolean;
+}
+
+interface QuestionFormShape {
+  text: string;
+  choices: ChoiceFormShape[];
+}
+
+interface QuizFormShape {
+  title: string;
+  questions: QuestionFormShape[];
+}
+
+interface QuizFormProps {
   initialData: {
     title: string;
   };
@@ -27,41 +43,44 @@ interface TitleFormProps {
 };
 
 const formSchema = z.object({
-  title: z.string().min(1, {
-    message: "Title is required",
-  }),
+  title: z.string().min(1, "Title is required"),
+  questions: z.array(z.object({
+    text: z.string().min(1, "Question text is required"),
+    choices: z.array(z.object({
+      text: z.string(),
+      isCorrect: z.boolean(),
+    })),
+  })),
 });
+
+interface QuizFormProps {
+  //initialData: QuizFormShape;
+  courseId: string;
+}
 
 export const QuizForm = ({
   initialData,
   courseId
-}: TitleFormProps) => {
-  const [isEditing, setIsEditing] = useState(false);
-
-  const toggleEdit = () => setIsEditing((current) => !current);
-
+}: QuizFormProps) => {
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<QuizFormShape>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
   });
-
   const { isSubmitting, isValid } = form.formState;
 
-  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  //   try {
-  //     await axios.patch(`/api/courses/${courseId}`, values);
-  //     // toast.success("Course updated");
-  //     // toggleEdit();
-  //     router.refresh();
-  //   } catch {
-  //     toast.error("Something went wrong");
-  //   }
-  // }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await axios.patch(`/api/courses/${courseId}/quiz`, values);
+      router.refresh();
+    } catch {
+      toast.error("Something went wrong");
+    }
+  }
 
-  const onSubmit = () => {
-    router.push(`/teacher/courses/${courseId}/teacherquiz`);
+  const onEdit = (id: string) => {
+      router.push(`/teacher/courses/${courseId}/teacherquiz/${id}`);
   }
 
   return (
@@ -76,13 +95,14 @@ export const QuizForm = ({
             className="space-y-4 mt-4"
           >
             <div className="flex items-center gap-x-1">
-              <Button
-                disabled={!isValid || isSubmitting}
+              <ButtonQuiz
+                //disabled={!isValid || isSubmitting}
                 type="submit"
+                onEdit={onEdit}
                 className="w-full px-6 py-6 text-lg"
               >
                <span className="text-base">Edit Course Quiz</span>
-              </Button>
+              </ButtonQuiz>
             </div>
           </form>
         </Form>

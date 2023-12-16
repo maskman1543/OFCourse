@@ -124,40 +124,31 @@ model StripeCustomer {
 }
 
 model Quiz {
-  id String @id @default(uuid())
-  userId String
-  courseId String
-  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
-  score Int
-  question_01 String
-  choice_a String
-  choice_b String
-  choice_c String
-  choice_d String
-  correctChoice String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  id        String    @id @default(uuid())
+  userId    String
+  courseId  String
+  course    Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  score     Int?
+  questions Question[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   @@index([courseId])
 }
 
+model Question {
+  id      String   @id @default(uuid())
+  quizId  String
+  quiz    Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  text    String
+  choices Choice[]
+  @@index([quizId])
+}
 
-// model Question {
-//   id        String  @id @default(uuid())
-//   quizId    String
-//   quiz      Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  
-//   questionId Int
-//   questionDescription String
-//   questionType String
-//   choices String
-//   correct String
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   @@index([quizId])
-// }
-
+model Choice {
+  id         String   @id @default(uuid())
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  text       String?
+  isCorrect  Boolean
+  @@index([questionId])
+}

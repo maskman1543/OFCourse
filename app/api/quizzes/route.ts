@@ -18,25 +18,15 @@ export async function POST(req: Request) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const courseId = '3c609a33-366c-4716-87ab-6232141bc6a9';
+        const courseId = '1d0b8170f-f18b-48cb-93e5-3ddb4ddd607d';
 
-        // Check if the course with the given courseId exists
-        const existingCourse = await db.course.findUnique({
-            where: {
-                id: courseId,
-            },
-        });
-
-        if (!existingCourse) {
-            return new NextResponse("Course not found", { status: 404 });
-        }
-
-        // Find the associated quiz instead of creating a new one
-        const existingQuiz = await db.quiz.findUnique({
-            where: {
-                id: existingCourse.id, // Use the course id as the quiz id
-            },
-        });
+        const quiz = await db.quiz.create({
+            data: {
+                userId: 'your_user_id_here',
+                courseId: courseId,
+                title: 'Your Quiz Title',
+              },
+          });
 
         if (!existingQuiz) {
             return new NextResponse("Quiz not found", { status: 404 });

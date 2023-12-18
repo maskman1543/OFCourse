@@ -1,8 +1,19 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import CertificateDownloadButton from "@/components/ui/certification-download-button";
+import { useState } from 'react';
 
 const CerificatePage = () => {
+  const [name, setName] = useState('');
 
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const handleSaveName = () => {
+    console.log('Name saved:', name);
+  };
 
     return (
         <div className="p-6 space-y-4 bg-blue-200" style={{
@@ -20,17 +31,29 @@ const CerificatePage = () => {
           achievement. Remember, this accomplishment is just the beginning 
           of a journey filled with endless possibilities. Embrace your 
           success and keep reaching for new heights!"
-          </h4>
+          </h4><br></br>
           {/* New message with an image */}
           <div className="flex items-center justify-center mt-1"> {/* Increased spacing */}
           <img
-  src="/congrats.png"
-  alt="Congratulations Image"
-  style={{ width: '75%', maxWidth: '500px', height: 'auto' }}
-/>
-      </div>
-<div className="s flex justify-center"> {/* Adjusted spacing */}
-        <CertificateDownloadButton />
+            src="/congrats.png"
+            alt="Congratulations Image"
+            style={{ width: '75%', maxWidth: '500px', height: 'auto' }}
+          />
+        </div>
+        {/* Input field for the name */}
+        <br></br>
+        <div className="flex items-center justify-center mt-1">
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={handleNameChange}
+                  className="border border-gray-300 p-2 rounded"
+                />
+                <Button onClick={handleSaveName}>Save Name</Button>
+              </div>
+      <div className="s flex justify-center"> {/* Adjusted spacing */}
+      <CertificateDownloadButton name={name} />
       </div>
           <div className="mt-6 pt-40 bg-blue-100" style={{
             float: 'left',

@@ -21,9 +21,17 @@ const CerificatePage = () => {
           of a journey filled with endless possibilities. Embrace your 
           success and keep reaching for new heights!"
           </h4>
-          <div className="s flex justify-center pt-20">
-            <CertificateDownloadButton/>
-          </div>
+          {/* New message with an image */}
+          <div className="flex items-center justify-center mt-1"> {/* Increased spacing */}
+          <img
+  src="/congrats.png"
+  alt="Congratulations Image"
+  style={{ width: '75%', maxWidth: '500px', height: 'auto' }}
+/>
+      </div>
+<div className="s flex justify-center"> {/* Adjusted spacing */}
+        <CertificateDownloadButton />
+      </div>
           <div className="mt-6 pt-40 bg-blue-100" style={{
             float: 'left',
             boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', // Adding a shadow effect

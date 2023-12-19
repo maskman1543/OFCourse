@@ -5,9 +5,10 @@ import { PDFDocument, PDFForm } from 'pdf-lib';
 
 interface CertificateDownloadButtonProps {
   name: string; 
+  courseTitle: string;
 }
 
-const CertificateDownloadButton: React.FC<CertificateDownloadButtonProps> = ({ name }) => {
+const CertificateDownloadButton: React.FC<CertificateDownloadButtonProps> = ({ name, courseTitle }) => {
   const handleDownload = async () => {
     try {
       const fileName = 'OFCCert.pdf';
@@ -21,17 +22,12 @@ const CertificateDownloadButton: React.FC<CertificateDownloadButtonProps> = ({ n
       const firstPage = pdfDoc.getPage(0);
 
       const nameTextField = form.getTextField('dhFormfield-4672811783');
-      //const courseTextField = form.getTextField('dhFormfield-4672811785');
+      const courseTextField = form.getTextField('dhFormfield-4672811785');
       const dateTextField = form.getTextField('dhFormfield-4672811784');
 
       nameTextField.setText(name);
-
+      courseTextField.setText(courseTitle);
       
-      //uncomment if course is already 
-      //const course = 'Your Course'; 
-      //courseTextField.setText(course);
-
-
       const currentDate = new Date();
       const formattedDate = currentDate.toLocaleDateString('en-US');
 

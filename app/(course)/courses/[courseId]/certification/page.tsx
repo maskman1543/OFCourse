@@ -1,11 +1,35 @@
 "use client";
 
+import { PrismaClient } from '@prisma/client';
 import { Button } from "@/components/ui/button";
 import CertificateDownloadButton from "@/components/ui/certification-download-button";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const CerificatePage = () => {
+const prisma = new PrismaClient();
+
+const CerificatePage: React.FC<{ courseId: string }> = ({ courseId: initialCourseId }) => {
   const [name, setName] = useState('');
+  const [courseId, setCourseId] = useState(initialCourseId);
+  const [courseTitle, setCourseTitle] = useState('');
+
+  useEffect(() => {
+    // Fetch course details when component mounts or courseId changes
+    if (courseId) {
+      // Use Prisma client to fetch course details
+      prisma.course.findUnique({
+        where: { id: courseId },
+        select: { title: true },
+      })
+      .then((course) => {
+        if (course) {
+          setCourseTitle(course.title);
+        } else {
+          console.error('Course not found');
+        }
+      })
+      .catch((error) => console.error('Error fetching course details:', error));
+    }
+  }, [courseId]);
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -13,6 +37,7 @@ const CerificatePage = () => {
 
   const handleSaveName = () => {
     console.log('Name saved:', name);
+    console.log('Course Title:', courseTitle);
   };
 
     return (
@@ -53,7 +78,7 @@ const CerificatePage = () => {
                 <Button onClick={handleSaveName}>Save Name</Button>
               </div>
       <div className="s flex justify-center"> {/* Adjusted spacing */}
-      <CertificateDownloadButton name={name} />
+      <CertificateDownloadButton name={name} courseTitle={courseTitle}/>
       </div>
           <div className="mt-6 pt-40 bg-blue-100" style={{
             float: 'left',

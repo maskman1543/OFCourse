@@ -4,8 +4,8 @@ import { ImageIcon, X } from "lucide-react";
 import { useState } from "react";
 import { Attachment, Course } from "@prisma/client";
 import Modal from 'react-modal';
-
 import { Button } from "@/components/ui/button";
+
 
 interface CertificationFormProps {
   initialData: Course & { attachments: Attachment[] };
@@ -30,7 +30,6 @@ export const CertificationForm: React.FC<CertificationFormProps> = ({
     setViewingTemplate(false);
     setIsModalOpen(false);
   };
-
 
   // Render the component
   return (

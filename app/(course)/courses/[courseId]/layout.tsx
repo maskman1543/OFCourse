@@ -42,7 +42,19 @@ const CourseLayout = async ({
           position: "asc"
         }
       },
+      // Assuming the course has related quizzes
+      quizzes: {
+        where: {
+          courseId: params.courseId,
+        }
+      }
     },
+  });
+
+  const quiz = await db.quiz.findUnique({
+    where:{
+        id: params.courseId,
+    }
   });
 
   if (!course) {
@@ -65,6 +77,10 @@ const CourseLayout = async ({
         <CourseSidebar
           course={course}
           progressCount={progressCount}
+        />
+        <QuizSidebar
+          course={course}
+          //quizzes={course.quizzes}
         />
       </div>
       <main className="md:pl-80 pt-[80px] h-full">

@@ -1,19 +1,18 @@
 import { auth } from "@clerk/nextjs";
-import { Chapter, Course, UserProgress } from "@prisma/client";
+import { Chapter, Course, UserProgress, Quiz } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
 import { CourseProgress } from "@/components/course-progress";
 import { CourseSidebarItem } from "./course-sidebar-item";
-import { CourseQuizSidebar } from "./course-quiz-sidebar";
+//import { CourseQuizSidebar } from "./course-quiz-sidebar";
 import { CourseCertificationSidebar } from "./course-certification-sidebar";
 
 interface CourseSidebarProps {
   course: Course & {
     chapters: (Chapter & {
       userProgress: UserProgress[] | null;
-    })[];
-  };
+    })[];}
   progressCount: number;
 }
 
@@ -49,22 +48,8 @@ export const CourseSidebar = async ({
       isLocked={!chapter.isFree && !purchase}
     />
   ));
-
   // Render Quiz sidebar if not rendered yet
-  if (!quizRendered) {
-    courseSidebarItems.push(
-      <CourseQuizSidebar
-        key="quiz"
-        label="Quiz" // Provide label or title for the quiz sidebar
-        id="quiz" // Provide an ID for the quiz sidebar
-       // isCompleted={!!chapter.userProgress?.[0]?.isCompleted}
-      courseId={course.id}
-      //isLocked={!chapter.isFree && !purchase}
-      />
-    );
-
-    quizRendered = true; // Set flag to avoid rendering multiple quizzes
-  }
+  
 
   // Render Certification sidebar if not rendered yet
   if (!certificationRendered) {

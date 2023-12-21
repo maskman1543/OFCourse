@@ -17,6 +17,9 @@ import { Actions } from "./_components/actions";
 // import { QuizForm } from "./_components/quiz-form";
 import { CertificationForm } from "./_components/certification-form";
 import { QuizForm } from "./_components/quiz-form";
+import { getQuizzes } from "@/actions/get-quizzes";
+import { QuizList } from "./_components/quiz-list";
+//import { QuizForm } from "./_components/quiz-form";
 
 
 const CourseIdPage = async ({
@@ -45,6 +48,9 @@ const CourseIdPage = async ({
         orderBy: {
           createdAt: "desc",
         },
+      },
+      quizzes:{
+        
       },
     },
   });
@@ -148,10 +154,7 @@ const CourseIdPage = async ({
                   Course Quiz
                 </h2>
               </div>
-              <QuizForm
-                initialData={course}
-                courseId={course.id}
-              />
+              <QuizForm initialData={course} courseId={course.id} />
             </div>
             {/* Course Certificate Layout */}
             <div>

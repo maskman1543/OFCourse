@@ -124,31 +124,51 @@ model StripeCustomer {
 }
 
 model Quiz {
-  id        String    @id @default(uuid())
-  userId    String
-  courseId  String
-  course    Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  score     Int?
-  questions Question[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  @@index([courseId])
-}
+  id             String   @id @default(uuid())
+  title          String
+  courseId       String
+  course         Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  score          Int?
+  isPublished Boolean @default(false)
 
-model Question {
-  id      String   @id @default(uuid())
-  quizId  String
-  quiz    Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  text    String
-  choices Choice[]
-  @@index([quizId])
-}
+  question01     String
+  question02     String
+  question03     String
+  question04     String
+  question05     String
+  
+  choices01A     String
+  choices01B     String
+  choices01C     String
+  choices01D     String
+  correctAnswer01 String
 
-model Choice {
-  id         String   @id @default(uuid())
-  questionId String
-  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  text       String?
-  isCorrect  Boolean
-  @@index([questionId])
+  choices02A     String
+  choices02B     String
+  choices02C     String
+  choices02D     String
+  correctAnswer02 String
+
+  choices03A     String
+  choices03B     String
+  choices03C     String
+  choices03D     String
+  correctAnswer03 String
+
+  choices04A     String
+  choices04B     String
+  choices04C     String
+  choices04D     String
+  correctAnswer04 String
+
+  choices05A     String
+  choices05B     String
+  choices05C     String
+  choices05D     String
+  correctAnswer05 String
+
+  // Repeat the above pattern for each set of choices and correct answers up to question 10
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

@@ -1,44 +1,16 @@
 "use client";
 
-import { PrismaClient } from '@prisma/client';
 import { Button } from '@/components/ui/button';
-import { PDFDocument } from 'pdf-lib';
-
-const prisma = new PrismaClient();
+import { PDFDocument, PDFForm } from 'pdf-lib';
 
 interface CertificateDownloadButtonProps {
   name: string; 
+  courseTitle: string;
 }
 
-const CertificateDownloadButton: React.FC<CertificateDownloadButtonProps> = ({ name }) => {
-  const getCourseTitle = async () => {
-    try {
-      const courseId = 'YOUR_COURSE_ID'; // Replace 'YOUR_COURSE_ID' with the actual course ID
-      const course = await prisma.course.findUnique({
-        where: {
-          id: courseId,
-        },
-        select: {
-          title: true,
-        },
-      });
-      return course?.title ?? 'Default Course Title'; // Return the course title or a default value
-    } catch (error) {
-      console.error("Error fetching course title:", error);
-      return 'Default Course Title'; // Return a default value in case of an error
-    }
-  };
-
-  const displayCourseTitle = async () => {
-    const courseTitle = await getCourseTitle();
-    console.log('Course Title:', courseTitle); // Log the course title to the console
-    return courseTitle;
-  };
-
+const CertificateDownloadButton: React.FC<CertificateDownloadButtonProps> = ({ name, courseTitle }) => {
   const handleDownload = async () => {
     try {
-      const courseTitle = await displayCourseTitle();
-      
       const fileName = 'OFCCert.pdf';
       const fileUrl = '/' + fileName;
 

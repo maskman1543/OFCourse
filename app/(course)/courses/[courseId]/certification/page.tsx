@@ -78,7 +78,7 @@ const CerificatePage: React.FC<{ courseId: string }> = ({ courseId: initialCours
                 <Button onClick={handleSaveName}>Save Name</Button>
               </div>
       <div className="s flex justify-center"> {/* Adjusted spacing */}
-      <CertificateDownloadButton name={name} courseTitle={courseTitle}/>
+      {/* <CertificateDownloadButton name={name} courseTitle={courseTitle}/> */}
       </div>
           <div className="mt-6 pt-40 bg-blue-100" style={{
             float: 'left',

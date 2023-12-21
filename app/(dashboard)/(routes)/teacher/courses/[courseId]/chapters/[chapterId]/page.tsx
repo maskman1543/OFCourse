@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
+import { ChapterAccessForm } from "./_components/chapter-access-form";
 
 import { db } from "@/lib/db";
 import { IconBadge } from "@/components/icon-badge";
@@ -107,7 +108,7 @@ const ChapterIdPage = async ({
                 chapterId={params.chapterId}
               />
             </div>
-            {/* <div>
+            <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={Eye} />
                 <h2 className="text-xl">
@@ -119,7 +120,7 @@ const ChapterIdPage = async ({
                 courseId={params.courseId}
                 chapterId={params.chapterId}
               />
-            </div> */}
+            </div>
           </div>
           <div>
             <div className="flex items-center gap-x-2">
